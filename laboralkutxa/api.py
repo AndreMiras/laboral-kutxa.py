@@ -1,5 +1,6 @@
 import json
 import os
+from typing import Any, Dict
 
 import requests
 
@@ -14,7 +15,7 @@ def handle_status_code(response: requests.Response) -> None:
     )
 
 
-def login(username: str, password: str) -> dict[str, any]:
+def login(username: str, password: str) -> Dict[str, Any]:
     resource = f"{API_URL}/App/api/Logon"
     body = {
         "primeravez": False,
@@ -33,7 +34,7 @@ def login(username: str, password: str) -> dict[str, any]:
     return data
 
 
-def get_my_products(token: str) -> dict[str, any]:
+def get_my_products(token: str) -> Dict[str, Any]:
     resource = f"{API_URL}/srv/api/mis-productos"
     headers = {
         "Accept": "application/json",
@@ -46,11 +47,11 @@ def get_my_products(token: str) -> dict[str, any]:
     return data
 
 
-def show_product(product: dict[str, any]) -> None:
+def show_product(product: Dict[str, Any]) -> None:
     print({"productAlias": product["alias"]})
 
 
-def show_products(products_response: dict[str, any]) -> None:
+def show_products(products_response: Dict[str, Any]) -> None:
     for product in products_response["misProductos"]:
         show_product(product)
 
