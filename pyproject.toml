@@ -26,7 +26,7 @@ dynamic = ["version"]
 [project.optional-dependencies]
 dev = [
     "black",
-    "flake8",
+    "Flake8-pyproject",
     "isort",
 ]
 
@@ -35,6 +35,10 @@ multi_line_output = 3
 include_trailing_comma = true
 force_grid_wrap = 0
 use_parentheses = true
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = "E203"
 
 [tool.mypy]
 ignore_missing_imports = true
