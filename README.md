@@ -1,6 +1,7 @@
 # laboral-kutxa.py
 
 [![Tests](https://github.com/AndreMiras/laboral-kutxa.py/workflows/Tests/badge.svg)](https://github.com/AndreMiras/laboral-kutxa.py/actions/workflows/tests.yml)
+[![Coverage Status](https://coveralls.io/repos/github/AndreMiras/laboral-kutxa.py/badge.svg?branch=main)](https://coveralls.io/github/AndreMiras/laboral-kutxa.py?branch=main)
 
 Unofficial Laboral Kutxa Python library
 

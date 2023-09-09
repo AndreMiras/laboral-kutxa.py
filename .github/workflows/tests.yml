@@ -19,5 +19,10 @@ jobs:
           pip install tox
           tox -e py
       - name: Linter
-        if: matrix.python == '3.10'
+        if: matrix.python == '3.11'
         run: make lint
+      - name: Coveralls
+        if: matrix.python == '3.11'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: tox -e coveralls
