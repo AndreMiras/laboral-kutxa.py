@@ -28,6 +28,7 @@ dev = [
     "black",
     "Flake8-pyproject",
     "isort",
+    "pytest",
 ]
 
 [tool.isort]
