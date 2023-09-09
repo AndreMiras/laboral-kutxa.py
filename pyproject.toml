@@ -29,6 +29,7 @@ dev = [
     "Flake8-pyproject",
     "isort",
     "pytest",
+    "pytest-cov",
 ]
 
 [tool.isort]
