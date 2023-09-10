@@ -7,14 +7,6 @@ import requests
 from laboralkutxa.constants import API_URL
 
 
-def handle_status_code(response: requests.Response) -> None:
-    if response.ok is True:
-        return
-    raise Exception(
-        f"HTTP error! Status: {response.status_code}. Body: {response.text}"
-    )
-
-
 def login(username: str, password: str) -> Dict[str, Any]:
     resource = f"{API_URL}/App/api/Logon"
     body = {
@@ -29,7 +21,7 @@ def login(username: str, password: str) -> Dict[str, Any]:
         "Content-Type": "application/json",
     }
     response = requests.post(resource, headers=headers, data=json.dumps(body))
-    handle_status_code(response)
+    response.raise_for_status()
     data = response.json()
     return data
 
@@ -42,7 +34,7 @@ def get_my_products(token: str) -> Dict[str, Any]:
         "cookie": f"lkId={token}",
     }
     response = requests.get(resource, headers=headers)
-    handle_status_code(response)
+    response.raise_for_status()
     data = response.json()
     return data
 

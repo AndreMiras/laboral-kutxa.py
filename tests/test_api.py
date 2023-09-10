@@ -1,37 +1,27 @@
+import io
+import json
 from unittest import mock
 
 import pytest
+import requests
 
 from laboralkutxa import api
 
 
-def patch_request_method(method, ok=True, json_response=None):
-    mock_response = mock.Mock()
-    mock_response.ok = ok
-    mock_response.json.return_value = json_response
-    mock_post = mock.Mock(return_value=mock_response)
-    return mock.patch(f"requests.{method}", mock_post)
+def patch_request_method(method, status_code=200, json_response=None):
+    response = requests.Response()
+    response.status_code = status_code
+    response.raw = io.BytesIO(json.dumps(json_response).encode())
+    mock_method = mock.Mock(return_value=response)
+    return mock.patch(f"requests.{method}", mock_method)
 
 
-def patch_request_get(ok=True, json_response=None):
-    return patch_request_method("get", ok, json_response)
+def patch_request_get(status_code=200, json_response=None):
+    return patch_request_method("get", status_code, json_response)
 
 
-def patch_request_post(ok=True, json_response=None):
-    return patch_request_method("post", ok, json_response)
-
-
-def test_handle_status_code():
-    # happy case
-    response_mock = mock.Mock()
-    response_mock.ok = True
-    assert api.handle_status_code(response_mock) is None
-    # rainy case
-    response_mock.ok = False
-    response_mock.status_code = 404
-    response_mock.text = "Not Found"
-    with pytest.raises(Exception, match="HTTP error! Status: 404. Body: Not Found"):
-        api.handle_status_code(response_mock)
+def patch_request_post(status_code=200, json_response=None):
+    return patch_request_method("post", status_code, json_response)
 
 
 def test_login():
@@ -41,7 +31,9 @@ def test_login():
     with patch_request_post(json_response=expected_response):
         result = api.login(username, password)
     assert result == expected_response
-    with patch_request_post(ok=False), pytest.raises(Exception, match="HTTP error!"):
+    with patch_request_post(status_code=401), pytest.raises(
+        requests.exceptions.HTTPError, match="401 Client Error"
+    ):
         api.login(username, password)
 
 
@@ -51,7 +43,9 @@ def test_get_my_products():
     with patch_request_get(json_response=expected_response):
         result = api.get_my_products(token)
     assert result == expected_response
-    with patch_request_get(ok=False), pytest.raises(Exception, match="HTTP error!"):
+    with patch_request_get(status_code=403), pytest.raises(
+        requests.exceptions.HTTPError, match="403 Client Error"
+    ):
         api.get_my_products(token)
 
 
