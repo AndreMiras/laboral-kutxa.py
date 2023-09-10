@@ -1,15 +1,16 @@
 [build-system]
-requires = ["setuptools", "wheel", "setuptools_scm[toml]"]
+requires = ["setuptools>=61.0.0", "wheel", "setuptools_scm[toml]"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "laboral-kutxa"
+version = "0.0.1"
 authors = [
     {name = "Andre Miras"},
 ]
 description = "Unofficial Laboral Kutxa Python library"
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 keywords = ["laboral", "kutxa", "bank", "banco"]
 license = {text = "MIT"}
 classifiers = [
@@ -21,7 +22,9 @@ classifiers = [
 dependencies = [
     "requests",
 ]
-dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/AndreMiras/laboral-kutxa.py"
 
 [project.optional-dependencies]
 dev = [
@@ -31,6 +34,10 @@ dev = [
     "isort",
     "pytest",
     "pytest-cov",
+]
+release = [
+    "build",
+    "twine",
 ]
 
 [tool.isort]

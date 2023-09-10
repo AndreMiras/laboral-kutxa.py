@@ -1,0 +1,22 @@
+name: PyPI release
+
+on: [push]
+
+jobs:
+  pypi:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+      - name: Install dependencies
+        run: pip install -e ".[release]"
+      - name: Build
+        run: |
+          python -m build
+          twine check dist/*
+      - name: Publish package
+        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          verbose: true
+          password: ${{ secrets.PYPI_PASSWORD }}

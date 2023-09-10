@@ -1,5 +1,4 @@
 VIRTUAL_ENV ?= venv
-REQUIREMENTS:=requirements.txt
 PIP=$(VIRTUAL_ENV)/bin/pip
 PYTHON=$(VIRTUAL_ENV)/bin/python
 ISORT=$(VIRTUAL_ENV)/bin/isort
@@ -17,7 +16,7 @@ SOURCES=laboralkutxa/ tests/
 
 $(VIRTUAL_ENV):
 	$(PYTHON_WITH_VERSION) -m venv $(VIRTUAL_ENV)
-	$(PIP) install -r $(REQUIREMENTS)
+	$(PIP) install -e ".[dev]"
 
 virtualenv: $(VIRTUAL_ENV)
 
@@ -52,3 +51,21 @@ clean:
 
 clean/all: clean
 	rm -rf $(VIRTUAL_ENV)
+
+release/version/check:
+ifndef VERSION
+	$(error VERSION is not set)
+endif
+
+release/version/update: release/version/check
+	sed --regexp-extended 's/version = "(.+)"/version = "$(VERSION)"/' --in-place pyproject.toml
+
+release/commit_and_tag: release/version/check
+	git commit -a -m ":bookmark: $(VERSION)"
+	git tag -a $(VERSION) -m ":bookmark: $(VERSION)"
+
+release/push:
+	git push
+	git push --tags
+
+release: release/version/update release/commit_and_tag release/push
