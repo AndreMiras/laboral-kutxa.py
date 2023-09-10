@@ -20,6 +20,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = [
+    "appdirs",
     "requests",
 ]
 
@@ -31,7 +32,6 @@ laboralkutxa = "laboralkutxa.cli:main"
 
 [project.optional-dependencies]
 dev = [
-    "appdirs",
     "black",
     "coveralls",
     "Flake8-pyproject",
