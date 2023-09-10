@@ -26,8 +26,12 @@ dependencies = [
 [project.urls]
 Homepage = "https://github.com/AndreMiras/laboral-kutxa.py"
 
+[project.scripts]
+laboralkutxa = "laboralkutxa.cli:main"
+
 [project.optional-dependencies]
 dev = [
+    "appdirs",
     "black",
     "coveralls",
     "Flake8-pyproject",

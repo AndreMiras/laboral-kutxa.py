@@ -61,3 +61,11 @@ Output:
     'financing': {'cantidad': 174356.48, 'moneda': 'EUR'}
 }
 ```
+
+## CLI
+
+There's also a command line interface available, try with:
+
+```sh
+laboralkutxa --help
+```
